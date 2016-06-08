@@ -90,7 +90,7 @@ This component renders the X domain. By default, it interprets the numerical val
 - `ticks?`: passed through to [`computeTicks`](#computeticksscale-ticks-tickformat).
 - `tickFormat?`: passed through to [`computeTicks`](#computeticksscale-ticks-tickformat).
 - `color?`: a string specifying the color to use for drawing.
-- `font?`: a *fully-qualified* name of a font with size, such as `'12px MyriadPro-Regular'`. A font-family is not sufficient.
+- `font?`: a legal [CSS `font` value](https://developer.mozilla.org/en-US/docs/Web/CSS/font), such as `'normal 400 12px Helvetica'`.
 
 There is a `ConnectedXAxisLayer` that accepts the same props, except with `seriesId` instead of `xDomain`.
 
@@ -111,7 +111,7 @@ This component renders one or more Y domains, lined up next to each other on the
     - `tickFormat?`: passed through to [`computeTicks`](#computeticksscale-ticks-tickformat).
     - `color?`: a string specifying the color to use for drawing.
     - `axisId?`: a unique ID to identify this axis. Used to prevent jittery animations when adding/removing/rearranging axes.
-- `font?`: a *fully-qualified* name of a font with size, such as `'12px MyriadPro-Regular'`. A font-family is not sufficient.
+- `font?`: a legal [CSS `font` value](https://developer.mozilla.org/en-US/docs/Web/CSS/font), such as `'normal 400 12px Helvetica'`.
 - `backgroundColor?`: a string specifying a color to draw behind the axis, which is useful since the Y axis often overlaps the data. Defaults to `rgba(255, 255, 255, 0.8)`.
 
 There is a `ConnectedYAxisLayer` that accepts the same props, except each item in `axes` should specify a `seriesId` instead of both `yDomain` and `axisId`.
@@ -376,6 +376,28 @@ class ExampleComponent extends React.Component<Props, ...> {
 
 export default wrapWithAnimatedYDomain(ExampleComponent);
 
+```
+
+<hr/>
+
+#### `wrapDataLayerWithConnect(component)`
+
+Wraps the given component with a new component that accepts a `seriesId` instead of `data`, `xDomain` and `yDomain`. The new component is automatically [`connect`](https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options)ed and will inject these three props based on the value of the `seriesId` prop.
+
+**Note**: If you're using Typescript, you should explicitly parameterize the types for this function, or they may be inferred to be a too-loose value (such as `{}`). You can use `WrappedDataLayerConnectedProps` to refer to the props that will be auto-injected.
+
+```tsx
+import { WrappedDataLayerConnectedProps, wrapDataLayerWithConnect } from 'react-layered-chart';
+
+interface CommonProps {
+  color?: string;
+}
+
+type Props = CommonProps & WrappedDataLayerConnectedProps;
+
+class ExampleComponent extends React.Component<Props, ...> { ... }
+
+const ConnectedExampleComponent = wrapDataLayerWithConnect<CommonProps, Props>(ExampleComponent);
 ```
 
 <hr/>
