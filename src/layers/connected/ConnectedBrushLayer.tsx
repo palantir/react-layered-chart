@@ -16,15 +16,6 @@ export interface ConnectedProps {
   selection?: Interval;
 }
 
-@PureRender
-class ConnectedBrushLayer extends React.Component<OwnProps & ConnectedProps, {}> {
-  render() {
-    return (
-      <BrushLayer {...this.props}/>
-    );
-  }
-}
-
 function mapStateToProps(state: ChartProviderState): ConnectedProps {
   return {
     xDomain: selectXDomain(state),
@@ -32,4 +23,4 @@ function mapStateToProps(state: ChartProviderState): ConnectedProps {
   };
 }
 
-export default connect(mapStateToProps)(ConnectedBrushLayer) as React.ComponentClass<OwnProps>;
+export default connect(mapStateToProps)(BrushLayer) as React.ComponentClass<OwnProps>;
