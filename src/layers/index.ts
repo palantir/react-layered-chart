@@ -57,3 +57,5 @@ export {
   default as YAxisLayer,
   Props as YAxisLayerProps
 } from './YAxisLayer';
+
+export * from './connected';

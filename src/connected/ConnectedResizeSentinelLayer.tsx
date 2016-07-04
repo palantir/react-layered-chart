@@ -4,7 +4,7 @@ import * as PureRender from 'pure-render-decorator';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { setChartPhysicalWidthAndLoad } from '../flux/compoundActions';
+import { setChartPhysicalWidthAndLoad } from './flux/compoundActions';
 
 interface DispatchProps {
   setChartPhysicalWidthAndLoad: typeof setChartPhysicalWidthAndLoad;

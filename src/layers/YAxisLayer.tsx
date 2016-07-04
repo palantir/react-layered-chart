@@ -3,13 +3,15 @@ import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
 import * as _ from 'lodash';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
-
-import propTypes from '../propTypes';
-import { wrapWithAnimatedYDomain } from '../componentUtils';
-import { computeTicks } from '../renderUtils';
-import { Interval, ScaleFunction, Ticks, TickFormat, Color, AxisSpec } from '../interfaces';
+import {
+  Interval,
+  Color,
+  AxisSpec,
+  NonReactRender,
+  computeTicks,
+  propTypes,
+  wrapWithAnimatedYDomain
+} from '../core';
 
 const DEFAULT_TICK_COUNT = 5;
 
@@ -62,8 +64,6 @@ export interface Props {
 
 @PureRender
 export default class YAxisLayer extends React.Component<Props, void> {
-  context: Context;
-
   static propTypes = {
     axes: React.PropTypes.arrayOf(React.PropTypes.shape(_.defaults({
       yDomain: propTypes.interval.isRequired,

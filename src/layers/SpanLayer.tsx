@@ -1,38 +1,47 @@
 import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
+import * as _ from 'lodash';
+import { deprecate } from 'react-is-deprecated';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
+import {
+  Interval,
+  XSpanDatum,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  getIndexBoundsForSpanData,
+  wrapWithAnimatedYDomain,
+  propTypes
+} from '../core';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForSpanData } from '../renderUtils';
-import { wrapWithAnimatedYDomain } from '../componentUtils';
-import propTypes from '../propTypes';
-import { Color, Interval, SpanDatum } from '../interfaces';
 
 export interface Props {
-  data: SpanDatum[];
+  data: XSpanDatum[];
   xDomain: Interval;
-  yDomain: Interval;
   color?: Color;
+  fillColor?: Color;
+  borderColor?: Color;
 }
 
 @PureRender
 @NonReactRender
 @PixelRatioContext
-class BarLayer extends React.Component<Props, void> {
-  context: Context;
+export default class SpanLayer extends React.Component<Props, void> {
+  context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.spanDatum).isRequired,
+    data: React.PropTypes.arrayOf(propTypes.xSpanDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
-    yDomain: propTypes.interval.isRequired,
-    color: React.PropTypes.string
+    color: deprecate(React.PropTypes.string, 'SpanLayer\'s \'color\' prop is deprecated in favor of \'fillColor\' and/or \'borderColor\''),
+    fillColor: React.PropTypes.string,
+    borderColor: React.PropTypes.string
   } as React.ValidationMap<Props>;
 
   static defaultProps = {
-    color: 'rgba(0, 0, 0, 0.7)'
+    fillColor: 'rgba(0, 0, 0, 0.1)'
   } as any as Props;
 
   render() {
@@ -46,7 +55,7 @@ class BarLayer extends React.Component<Props, void> {
   nonReactRender = () => {
     const { width, height, context } = (this.refs['canvasLayer'] as PollingResizingCanvasLayer).resetCanvas();
     _renderCanvas(this.props, width, height, context);
-  };
+  }
 }
 
 // Export for testing.
@@ -60,23 +69,25 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
     .domain([ props.xDomain.min, props.xDomain.max ])
     .rangeRound([ 0, width ]);
 
-  const yScale = d3Scale.scaleLinear()
-    .domain([ props.yDomain.min, props.yDomain.max ])
-    .rangeRound([ 0, height ]);
+  const defaultFill = props.color || props.fillColor;
 
-  context.beginPath();
+  context.lineWidth = 1;
+  context.strokeStyle = props.borderColor;
 
   for (let i = firstIndex; i < lastIndex; ++i) {
     const left = xScale(props.data[i].minXValue);
     const right = xScale(props.data[i].maxXValue);
-    const top = height - yScale(props.data[i].yValue);
-    const bottom = height - yScale(0);
+    context.beginPath();
+    context.rect(left, -1, right - left, height + 2);
 
-    context.rect(left, bottom, right - left, top - bottom);
+    const fillStyle = props.data[i].color || defaultFill;
+    if (fillStyle) {
+      context.fillStyle = fillStyle;
+      context.fill();
+    }
+
+    if (props.borderColor) {
+      context.stroke();
+    }
   }
-
-  context.fillStyle = props.color;
-  context.fill();
 }
-
-export default wrapWithAnimatedYDomain(BarLayer);

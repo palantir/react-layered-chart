@@ -1,41 +1,42 @@
 import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
-import * as _ from 'lodash';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
+import {
+  Interval,
+  SpanDatum,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  getIndexBoundsForSpanData,
+  wrapWithAnimatedYDomain,
+  propTypes
+} from '../core';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForPointData } from '../renderUtils';
-import { wrapWithAnimatedYDomain } from '../componentUtils';
-import propTypes from '../propTypes';
-import { Interval, PointDatum, ScaleFunction, Color } from '../interfaces';
 
 export interface Props {
-  data: PointDatum[];
+  data: SpanDatum[];
   xDomain: Interval;
   yDomain: Interval;
-  yScale?: ScaleFunction;
   color?: Color;
 }
 
 @PureRender
 @NonReactRender
 @PixelRatioContext
-class SimpleLineLayer extends React.Component<Props, void> {
-  context: Context;
+class BarLayer extends React.Component<Props, void> {
+  context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.pointDatum).isRequired,
+    data: React.PropTypes.arrayOf(propTypes.spanDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
-    yScale: React.PropTypes.func,
     color: React.PropTypes.string
   } as React.ValidationMap<Props>;
 
   static defaultProps = {
-    yScale: d3Scale.scaleLinear,
     color: 'rgba(0, 0, 0, 0.7)'
   } as any as Props;
 
@@ -55,12 +56,7 @@ class SimpleLineLayer extends React.Component<Props, void> {
 
 // Export for testing.
 export function _renderCanvas(props: Props, width: number, height: number, context: CanvasRenderingContext2D) {
-  // Should we draw something if there is one data point?
-  if (props.data.length < 2) {
-    return;
-  }
-
-  const { firstIndex, lastIndex } = getIndexBoundsForPointData(props.data, props.xDomain, 'xValue');
+  const { firstIndex, lastIndex } = getIndexBoundsForSpanData(props.data, props.xDomain, 'minXValue', 'maxXValue');
   if (firstIndex === lastIndex) {
     return;
   }
@@ -69,20 +65,23 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
     .domain([ props.xDomain.min, props.xDomain.max ])
     .rangeRound([ 0, width ]);
 
-  const yScale = props.yScale()
+  const yScale = d3Scale.scaleLinear()
     .domain([ props.yDomain.min, props.yDomain.max ])
     .rangeRound([ 0, height ]);
 
-  context.translate(0.5, 0.5);
   context.beginPath();
 
-  context.moveTo(xScale(props.data[firstIndex].xValue), height - yScale(props.data[firstIndex].yValue));
-  for (let i = firstIndex + 1; i < lastIndex; ++i) {
-    context.lineTo(xScale(props.data[i].xValue), height - yScale(props.data[i].yValue));
+  for (let i = firstIndex; i < lastIndex; ++i) {
+    const left = xScale(props.data[i].minXValue);
+    const right = xScale(props.data[i].maxXValue);
+    const top = height - yScale(props.data[i].yValue);
+    const bottom = height - yScale(0);
+
+    context.rect(left, bottom, right - left, top - bottom);
   }
 
-  context.strokeStyle = props.color;
-  context.stroke();
-};
+  context.fillStyle = props.color;
+  context.fill();
+}
 
-export default wrapWithAnimatedYDomain(SimpleLineLayer);
+export default wrapWithAnimatedYDomain(BarLayer);

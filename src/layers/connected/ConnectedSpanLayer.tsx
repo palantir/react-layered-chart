@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Interval, Color, SpanLayer, XSpanDatum } from '../../core';
-import { ChartState } from '../model/state';
-import { selectData, selectXDomain } from '../model/selectors';
-import { SeriesId } from '../interfaces';
+import { Interval, Color, XSpanDatum } from '../../core';
+import { ChartProviderState, SeriesId, selectData, selectXDomain } from '../../connected';
+import SpanLayer from '../SpanLayer';
 
 export interface OwnProps {
   seriesId: SeriesId;
@@ -17,7 +16,7 @@ export interface ConnectedProps {
   xDomain: Interval;
 }
 
-function mapStateToProps(state: ChartState, ownProps: OwnProps): ConnectedProps {
+function mapStateToProps(state: ChartProviderState, ownProps: OwnProps): ConnectedProps {
   return {
     data: selectData(state)[ownProps.seriesId],
     xDomain: selectXDomain(state)

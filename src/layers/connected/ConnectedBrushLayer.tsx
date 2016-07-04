@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import { connect } from 'react-redux';
 
-import { Interval, Color, BrushLayer as UnconnectedBrushLayer } from '../../core';
-import { ChartState } from '../model/state';
-import { selectSelection, selectXDomain } from '../model/selectors';
+import { Interval, Color, XSpanDatum } from '../../core';
+import { ChartProviderState, selectSelection, selectXDomain } from '../../connected';
+import BrushLayer from '../BrushLayer';
 
 export interface OwnProps {
   stroke?: Color;
@@ -20,12 +20,12 @@ export interface ConnectedProps {
 class ConnectedBrushLayer extends React.Component<OwnProps & ConnectedProps, {}> {
   render() {
     return (
-      <UnconnectedBrushLayer {...this.props}/>
+      <BrushLayer {...this.props}/>
     );
   }
 }
 
-function mapStateToProps(state: ChartState): ConnectedProps {
+function mapStateToProps(state: ChartProviderState): ConnectedProps {
   return {
     xDomain: selectXDomain(state),
     selection: selectSelection(state)

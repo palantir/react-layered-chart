@@ -2,14 +2,20 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
+import {
+  Interval,
+  BucketDatum,
+  ScaleFunction,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  getIndexBoundsForSpanData,
+  wrapWithAnimatedYDomain,
+  propTypes
+} from '../core';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForSpanData } from '../renderUtils';
-import { wrapWithAnimatedYDomain } from '../componentUtils';
-import propTypes from '../propTypes';
-import { Interval, Color, ScaleFunction, BucketDatum } from '../interfaces';
 
 export interface Props {
   data: BucketDatum[];
@@ -23,7 +29,7 @@ export interface Props {
 @NonReactRender
 @PixelRatioContext
 class BucketedLineLayer extends React.Component<Props, void> {
-  context: Context;
+  context: PixelRatioContextType;
 
   static propTypes = {
     data: React.PropTypes.arrayOf(propTypes.bucketDatum).isRequired,

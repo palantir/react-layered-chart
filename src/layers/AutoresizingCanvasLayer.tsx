@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import * as classNames from 'classnames';
 
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
+import { PixelRatioContext, PixelRatioContextType } from '../core';
 
 export interface Props {
   onSizeChange: () => void;
@@ -17,7 +17,7 @@ export interface State {
 @PureRender
 @PixelRatioContext
 export default class PollingResizingCanvasLayer extends React.Component<Props, State> {
-  context: Context;
+  context: PixelRatioContextType;
 
   private __setSizeInterval: number;
 

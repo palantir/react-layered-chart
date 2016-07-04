@@ -1,9 +1,13 @@
 import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 
+import {
+  Interval,
+  Color,
+  propTypes
+} from '../core';
+
 import SpanLayer from './SpanLayer';
-import propTypes from '../propTypes';
-import { Interval, Color } from '../interfaces';
 
 export interface Props {
   xDomain: Interval;

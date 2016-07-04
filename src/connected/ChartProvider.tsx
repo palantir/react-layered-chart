@@ -8,7 +8,7 @@ import { Interval, Stack, propTypes, PixelRatioContextProvider } from '../core';
 import storeFactory from './flux/storeFactory';
 import { ChartId, SeriesId, TBySeriesId, DataLoader } from './interfaces';
 import { DefaultChartState, ChartState } from './model/state';
-import ConnectedResizeSentinelLayer from './layers/ConnectedResizeSentinelLayer';
+import ConnectedResizeSentinelLayer from './ConnectedResizeSentinelLayer';
 import {
   setYDomains,
   setOverrideYDomains,

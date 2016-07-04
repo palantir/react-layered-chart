@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import { connect } from 'react-redux';
 
-import { Interval, Color, SpanLayer, XSpanDatum } from '../../core';
-import { ChartState } from '../model/state';
-import { selectSelection, selectXDomain } from '../model/selectors';
+import { Interval, Color, XSpanDatum } from '../../core';
+import { ChartProviderState, selectSelection, selectXDomain } from '../../connected';
+import SpanLayer from '../SpanLayer';
 
 export interface OwnProps {
   fillColor?: Color;
@@ -16,7 +16,7 @@ export interface ConnectedProps {
   xDomain: Interval;
 }
 
-function mapStateToProps(state: ChartState): ConnectedProps {
+function mapStateToProps(state: ChartProviderState): ConnectedProps {
   const selection = selectSelection(state);
   return {
     data: selection ? [{ minXValue: selection.min, maxXValue: selection.max }] : [],

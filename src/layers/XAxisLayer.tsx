@@ -3,13 +3,17 @@ import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
 import * as _ from 'lodash';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
+import {
+  Interval,
+  AxisSpec,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  computeTicks,
+  propTypes
+} from '../core';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import propTypes from '../propTypes';
-import { computeTicks } from '../renderUtils';
-import { Interval, ScaleFunction, Ticks, TickFormat, Color, AxisSpec } from '../interfaces';
 
 const DEFAULT_TICK_COUNT = 5;
 // TODO: Do any of these need to be configurable?
@@ -25,7 +29,7 @@ export interface Props extends AxisSpec {
 @NonReactRender
 @PixelRatioContext
 export default class XAxisLayer extends React.Component<Props, void> {
-  context: Context;
+  context: PixelRatioContextType;
 
   static propTypes = _.defaults({
     xDomain: propTypes.interval.isRequired,

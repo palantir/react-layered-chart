@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Interval, HoverLineLayer } from '../../core';
-import { ChartState } from '../model/state';
-import { selectHover, selectXDomain } from '../model/selectors';
+import { Interval } from '../../core';
+import { ChartProviderState, selectHover, selectXDomain } from '../../connected';
+import HoverLineLayer from '../HoverLineLayer';
 
 export interface OwnProps {
   color?: string;
@@ -14,7 +14,7 @@ export interface ConnectedProps {
   xDomain: Interval;
 }
 
-function mapStateToProps(state: ChartState): ConnectedProps {
+function mapStateToProps(state: ChartProviderState): ConnectedProps {
   return {
     hover: selectHover(state),
     xDomain: selectXDomain(state)

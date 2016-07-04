@@ -17,10 +17,6 @@ export {
 } from './ConnectedInteractionCaptureLayer';
 
 export {
-  default as ConnectedResizeSentinelLayer
-} from './ConnectedResizeSentinelLayer';
-
-export {
   default as ConnectedSelectionBrushLayer,
   OwnProps as ConnectedSelectionBrushLayerProps
 } from './ConnectedSelectionBrushLayer';
