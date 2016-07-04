@@ -5,7 +5,7 @@ import * as d3Scale from 'd3-scale';
 import { span, method } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
 import { SpanDatum } from '../../src/core/interfaces';
-import { _renderCanvas, Props } from '../../src/core/layers/BarLayer';
+import { _renderCanvas, Props } from '../../src/layers/BarLayer';
 
 describe('BarLayer', () => {
   let spy: typeof CanvasContextSpy;

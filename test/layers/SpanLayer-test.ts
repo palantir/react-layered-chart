@@ -5,7 +5,7 @@ import * as d3Scale from 'd3-scale';
 import { method, property, xSpan } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
 import { XSpanDatum } from '../../src/core/interfaces';
-import { _renderCanvas, Props } from '../../src/core/layers/SpanLayer';
+import { _renderCanvas, Props } from '../../src/layers/SpanLayer';
 
 describe('SpanLayer', () => {
   let spy: typeof CanvasContextSpy;

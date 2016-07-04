@@ -5,7 +5,7 @@ import * as d3Scale from 'd3-scale';
 import { bucket, method } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
 import { BucketDatum } from '../../src/core/interfaces';
-import { _renderCanvas, Props } from '../../src/core/layers/BucketedLineLayer';
+import { _renderCanvas, Props } from '../../src/layers/BucketedLineLayer';
 
 describe('BucketedLineLayer', () => {
   let spy: typeof CanvasContextSpy;
