@@ -4,7 +4,7 @@ import * as d3Scale from 'd3-scale';
 
 import { bucket, method } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
-import { BucketDatum } from '../../src/core/interfaces';
+import { BucketDatum } from '../../src/layers/layerDataTypes';
 import { _renderCanvas, Props } from '../../src/layers/BucketedLineLayer';
 
 describe('BucketedLineLayer', () => {

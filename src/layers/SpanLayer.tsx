@@ -6,7 +6,6 @@ import { deprecate } from 'react-is-deprecated';
 
 import {
   Interval,
-  XSpanDatum,
   Color,
   NonReactRender,
   PixelRatioContext,
@@ -15,7 +14,7 @@ import {
   wrapWithAnimatedYDomain,
   propTypes
 } from '../core';
-
+import { XSpanDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
 
 export interface Props {
@@ -33,7 +32,7 @@ export default class SpanLayer extends React.Component<Props, void> {
   context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.xSpanDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.xSpanDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     color: deprecate(React.PropTypes.string, 'SpanLayer\'s \'color\' prop is deprecated in favor of \'fillColor\' and/or \'borderColor\''),
     fillColor: React.PropTypes.string,

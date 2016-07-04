@@ -1,4 +1,4 @@
-import { PointDatum, SpanDatum, XSpanDatum, BucketDatum } from '../../src/core/interfaces';
+import { PointDatum, SpanDatum, XSpanDatum, BucketDatum } from '../../src/layers/layerDataTypes';
 import { PropertySet, MethodCall } from '../../src/test-util/CanvasContextSpy';
 
 export function point(xValue: number, yValue: number): PointDatum {

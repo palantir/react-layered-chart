@@ -6,12 +6,12 @@ import * as _ from 'lodash';
 import {
   Interval,
   Color,
-  AxisSpec,
   NonReactRender,
   computeTicks,
-  propTypes,
-  wrapWithAnimatedYDomain
+  wrapWithAnimatedYDomain,
+  propTypes
 } from '../core';
+import { AxisSpec, layerPropTypes } from './layerDataTypes';
 
 const DEFAULT_TICK_COUNT = 5;
 
@@ -71,7 +71,7 @@ export default class YAxisLayer extends React.Component<Props, void> {
         React.PropTypes.string,
         React.PropTypes.number,
       ])
-    } as React.ValidationMap<any>, propTypes.axisSpecPartial))).isRequired,
+    } as React.ValidationMap<any>, layerPropTypes.axisSpecPartial))).isRequired,
     font: React.PropTypes.string,
     backgroundColor: React.PropTypes.string
   };

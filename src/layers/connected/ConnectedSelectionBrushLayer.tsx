@@ -2,7 +2,8 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import { connect } from 'react-redux';
 
-import { Interval, Color, XSpanDatum } from '../../core';
+import { Interval, Color } from '../../core';
+import { XSpanDatum } from '../layerDataTypes';
 import { ChartProviderState, selectSelection, selectXDomain } from '../../connected';
 import SpanLayer from '../SpanLayer';
 

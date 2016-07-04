@@ -5,14 +5,13 @@ import * as _ from 'lodash';
 
 import {
   Interval,
-  AxisSpec,
   NonReactRender,
   PixelRatioContext,
   PixelRatioContextType,
   computeTicks,
   propTypes
 } from '../core';
-
+import { AxisSpec, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
 
 const DEFAULT_TICK_COUNT = 5;
@@ -34,7 +33,7 @@ export default class XAxisLayer extends React.Component<Props, void> {
   static propTypes = _.defaults({
     xDomain: propTypes.interval.isRequired,
     font: React.PropTypes.string
-  }, propTypes.axisSpecPartial) as any as React.ValidationMap<Props>;
+  }, layerPropTypes.axisSpecPartial) as any as React.ValidationMap<Props>;
 
   static defaultProps = {
     scale: d3Scale.scaleTime,

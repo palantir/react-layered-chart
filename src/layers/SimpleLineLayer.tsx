@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 
 import {
   Interval,
-  PointDatum,
   ScaleFunction,
   Color,
   NonReactRender,
@@ -15,7 +14,7 @@ import {
   wrapWithAnimatedYDomain,
   propTypes
 } from '../core';
-
+import { PointDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
 
 export interface Props {
@@ -33,7 +32,7 @@ class SimpleLineLayer extends React.Component<Props, void> {
   context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.pointDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.pointDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     yScale: React.PropTypes.func,

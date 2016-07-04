@@ -12,7 +12,6 @@ import {
   PixelRatioContextType,
   propTypes
 } from '../core';
-
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
 
 export interface Props {

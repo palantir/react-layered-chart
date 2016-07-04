@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Interval, AxisSpec } from '../../core';
+import { Interval } from '../../core';
+import { AxisSpec } from '../layerDataTypes';
 import { ChartProviderState, selectXDomain } from '../../connected';
 import XAxisLayer from '../XAxisLayer';
 

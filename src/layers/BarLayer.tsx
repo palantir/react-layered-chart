@@ -4,7 +4,6 @@ import * as d3Scale from 'd3-scale';
 
 import {
   Interval,
-  SpanDatum,
   Color,
   NonReactRender,
   PixelRatioContext,
@@ -13,7 +12,7 @@ import {
   wrapWithAnimatedYDomain,
   propTypes
 } from '../core';
-
+import { SpanDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
 
 export interface Props {
@@ -30,7 +29,7 @@ class BarLayer extends React.Component<Props, void> {
   context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.spanDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.spanDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     color: React.PropTypes.string

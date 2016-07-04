@@ -4,7 +4,6 @@ import * as d3Scale from 'd3-scale';
 
 import {
   Interval,
-  BucketDatum,
   ScaleFunction,
   Color,
   NonReactRender,
@@ -14,7 +13,7 @@ import {
   wrapWithAnimatedYDomain,
   propTypes
 } from '../core';
-
+import { BucketDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
 
 export interface Props {
@@ -32,7 +31,7 @@ class BucketedLineLayer extends React.Component<Props, void> {
   context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.bucketDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.bucketDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     yScale: React.PropTypes.func,

@@ -4,7 +4,7 @@ import * as d3Scale from 'd3-scale';
 
 import { point, method } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
-import { PointDatum } from '../../src/core/interfaces';
+import { PointDatum } from '../../src/layers/layerDataTypes';
 import { _renderCanvas, Props } from '../../src/layers/SimpleLineLayer';
 
 describe('SimpleLineLayer', () => {

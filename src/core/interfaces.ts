@@ -12,36 +12,3 @@ export interface Interval {
   min: number;
   max: number;
 }
-
-export interface PointDatum {
-  xValue: number;
-  yValue: number;
-}
-
-export interface XSpanDatum {
-  minXValue: number;
-  maxXValue: number;
-  color?: Color;
-}
-
-export interface SpanDatum {
-  minXValue: number;
-  maxXValue: number;
-  yValue: number;
-}
-
-export interface BucketDatum {
-  minXValue: number;
-  maxXValue: number;
-  minYValue: number;
-  maxYValue: number;
-  firstYValue: number;
-  lastYValue: number;
-}
-
-export interface AxisSpec {
-  scale?: ScaleFunction;
-  ticks?: Ticks;
-  tickFormat?: TickFormat;
-  color?: Color;
-}

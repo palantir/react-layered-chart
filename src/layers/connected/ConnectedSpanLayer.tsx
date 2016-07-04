@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Interval, Color, XSpanDatum } from '../../core';
+import { Interval, Color } from '../../core';
+import { XSpanDatum } from '../layerDataTypes';
 import { ChartProviderState, SeriesId, selectData, selectXDomain } from '../../connected';
 import SpanLayer from '../SpanLayer';
 

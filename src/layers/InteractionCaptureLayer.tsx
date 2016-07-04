@@ -2,11 +2,7 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
 
-import {
-  Interval,
-  BooleanMouseEventHandler,
-  propTypes
-} from '../core';
+import { Interval, BooleanMouseEventHandler, propTypes } from '../core';
 
 const LEFT_MOUSE_BUTTON = 0;
 
