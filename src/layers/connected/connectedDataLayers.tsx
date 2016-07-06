@@ -2,9 +2,9 @@ import { Color, ScaleFunction } from '../../core';
 import { SeriesId } from '../../connected';
 
 import { default as BarLayer, Props as BarLayerProps } from '../BarLayer';
-import { default as BucketedLineLayer, Props as BucketedLineLayerProps } from '../BarLayer';
-import { default as PointLayer, Props as PointLayerProps } from '../BarLayer';
-import { default as SimpleLineLayer, Props as SimpleLineLayerProps } from '../BarLayer';
+import { default as BucketedLineLayer, Props as BucketedLineLayerProps } from '../BucketedLineLayer';
+import { default as PointLayer, Props as PointLayerProps } from '../PointLayer';
+import { default as SimpleLineLayer, Props as SimpleLineLayerProps } from '../SimpleLineLayer';
 
 import { wrapDataLayerWithConnect, SeriesIdProp } from './wrapDataLayerWithConnect';
 
