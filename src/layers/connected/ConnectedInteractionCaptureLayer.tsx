@@ -8,12 +8,16 @@ import {
   BooleanMouseEventHandler,
   panInterval,
   zoomInterval,
-  InteractionCaptureLayer
 } from '../../core';
-import { setSelection, setHover } from '../flux/atomicActions';
-import { setXDomainAndLoad } from '../flux/compoundActions';
-import { ChartState } from '../model/state';
-import { selectXDomain } from '../model/selectors';
+import {
+  ChartProviderState,
+  setSelection,
+  setHover,
+  setXDomain,
+  selectXDomain
+} from '../../connected';
+import InteractionCaptureLayer from '../InteractionCaptureLayer';
+
 
 export interface OwnProps {
   enablePan?: boolean;
@@ -31,7 +35,7 @@ export interface ConnectedProps {
 }
 
 export interface DispatchProps {
-  setXDomainAndLoad: typeof setXDomainAndLoad;
+  setXDomain: typeof setXDomain;
   setSelection: typeof setSelection;
   setHover: typeof setHover;
 }
@@ -55,11 +59,11 @@ export class ConnectedInteractionCaptureLayer extends React.Component<OwnProps &
   }
 
   private _zoom = (factor: number, anchorBias: number) => {
-    this.props.setXDomainAndLoad(zoomInterval(this.props.xDomain, factor, anchorBias));
+    this.props.setXDomain(zoomInterval(this.props.xDomain, factor, anchorBias));
   };
 
   private _pan = (logicalUnits: number) => {
-    this.props.setXDomainAndLoad(panInterval(this.props.xDomain, logicalUnits));
+    this.props.setXDomain(panInterval(this.props.xDomain, logicalUnits));
   };
 
   private _brush = (logicalUnitInterval?: Interval) => {
@@ -71,7 +75,7 @@ export class ConnectedInteractionCaptureLayer extends React.Component<OwnProps &
   };
 }
 
-function mapStateToProps(state: ChartState): ConnectedProps {
+function mapStateToProps(state: ChartProviderState): ConnectedProps {
   return {
     xDomain: selectXDomain(state)
   };
@@ -79,7 +83,7 @@ function mapStateToProps(state: ChartState): ConnectedProps {
 
 function mapDispatchToProps(dispatch: Dispatch): DispatchProps {
   return bindActionCreators({
-    setXDomainAndLoad,
+    setXDomain,
     setSelection,
     setHover
   }, dispatch);

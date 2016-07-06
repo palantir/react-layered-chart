@@ -2,14 +2,18 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
-
+import {
+  Interval,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  getIndexBoundsForSpanData,
+  wrapWithAnimatedYDomain,
+  propTypes
+} from '../core';
+import { SpanDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForSpanData } from '../renderUtils';
-import { wrapWithAnimatedYDomain } from '../componentUtils';
-import propTypes from '../propTypes';
-import { Color, Interval, SpanDatum } from '../interfaces';
 
 export interface Props {
   data: SpanDatum[];
@@ -22,10 +26,10 @@ export interface Props {
 @NonReactRender
 @PixelRatioContext
 class BarLayer extends React.Component<Props, void> {
-  context: Context;
+  context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.spanDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.spanDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     color: React.PropTypes.string

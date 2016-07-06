@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { Interval, AxisSpec, XAxisLayer } from '../../core';
-import { ChartState } from '../model/state';
-import { selectXDomain } from '../model/selectors';
+import { Interval } from '../../core';
+import { AxisSpec } from '../layerDataTypes';
+import { ChartProviderState, selectXDomain } from '../../connected';
+import XAxisLayer from '../XAxisLayer';
+
 
 export interface OwnProps extends AxisSpec {
   font?: string;
@@ -13,7 +15,7 @@ export interface ConnectedProps {
   xDomain: Interval;
 }
 
-function mapStateToProps(state: ChartState): ConnectedProps {
+function mapStateToProps(state: ChartProviderState): ConnectedProps {
   return {
     xDomain: selectXDomain(state)
   };

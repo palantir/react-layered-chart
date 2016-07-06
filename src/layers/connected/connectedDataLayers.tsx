@@ -1,16 +1,10 @@
-import {
-  Color,
-  ScaleFunction,
-  BarLayer,
-  BarLayerProps,
-  BucketedLineLayer,
-  BucketedLineLayerProps,
-  PointLayer,
-  PointLayerProps,
-  SimpleLineLayer,
-  SimpleLineLayerProps
-} from '../../core';
-import { SeriesId } from '../interfaces';
+import { Color, ScaleFunction } from '../../core';
+import { SeriesId } from '../../connected';
+
+import { default as BarLayer, Props as BarLayerProps } from '../BarLayer';
+import { default as BucketedLineLayer, Props as BucketedLineLayerProps } from '../BucketedLineLayer';
+import { default as PointLayer, Props as PointLayerProps } from '../PointLayer';
+import { default as SimpleLineLayer, Props as SimpleLineLayerProps } from '../SimpleLineLayer';
 
 import { wrapDataLayerWithConnect, SeriesIdProp } from './wrapDataLayerWithConnect';
 

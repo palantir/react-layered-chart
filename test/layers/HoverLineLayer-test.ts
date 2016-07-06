@@ -4,7 +4,7 @@ import * as d3Scale from 'd3-scale';
 
 import { method } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
-import { _renderCanvas, Props } from '../../src/core/layers/HoverLineLayer';
+import { _renderCanvas, Props } from '../../src/layers/HoverLineLayer';
 
 describe('HoverLineLayer', () => {
   let spy: typeof CanvasContextSpy;

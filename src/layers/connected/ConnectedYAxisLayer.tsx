@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as PureRender from 'pure-render-decorator';
 import { connect } from 'react-redux';
 
-import { Interval, Color, AxisSpec, YAxisLayer as UnconnectedYAxisLayer} from '../../core';
-import { SeriesId, TBySeriesId } from '../interfaces';
-import { ChartState } from '../model/state';
-import { selectYDomains } from '../model/selectors';
+import { Interval, Color } from '../../core';
+import { AxisSpec } from '../layerDataTypes';
+import { ChartProviderState, SeriesId, TBySeriesId, selectXDomain, selectYDomains } from '../../connected';
+import YAxisLayer from '../YAxisLayer';
 
 export interface ConnectedYAxisSpec extends AxisSpec {
   seriesId: SeriesId;
@@ -31,12 +31,12 @@ export class ConnectedYAxisLayer extends React.Component<OwnProps & ConnectedPro
       }, axis))
     }, this.props);
     return (
-      <UnconnectedYAxisLayer {...denormalizedProps}/>
+      <YAxisLayer {...denormalizedProps}/>
     );
   }
 }
 
-function mapStateToProps(state: ChartState): ConnectedProps {
+function mapStateToProps(state: ChartProviderState): ConnectedProps {
   return {
     yDomainsBySeriesId: selectYDomains(state)
   };

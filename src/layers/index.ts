@@ -1,3 +1,6 @@
+export * from './layerDataTypes';
+export * from './connected';
+
 export {
   default as AutoresizingCanvasLayer,
   Props as AutoresizingCanvasLayerProps

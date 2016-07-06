@@ -4,13 +4,18 @@ import * as d3Scale from 'd3-scale';
 import * as _ from 'lodash';
 import { deprecate } from 'react-is-deprecated';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
-
+import {
+  Interval,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  getIndexBoundsForSpanData,
+  wrapWithAnimatedYDomain,
+  propTypes
+} from '../core';
+import { XSpanDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForSpanData } from '../renderUtils';
-import propTypes from '../propTypes';
-import { Interval, Color, XSpanDatum } from '../interfaces';
 
 export interface Props {
   data: XSpanDatum[];
@@ -24,10 +29,10 @@ export interface Props {
 @NonReactRender
 @PixelRatioContext
 export default class SpanLayer extends React.Component<Props, void> {
-  context: Context;
+  context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.xSpanDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.xSpanDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     color: deprecate(React.PropTypes.string, 'SpanLayer\'s \'color\' prop is deprecated in favor of \'fillColor\' and/or \'borderColor\''),
     fillColor: React.PropTypes.string,

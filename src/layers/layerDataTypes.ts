@@ -1,23 +1,54 @@
 import * as React from 'react';
 import { deprecate } from 'react-is-deprecated';
 
-export const interval = React.PropTypes.shape({
-  min: React.PropTypes.number.isRequired,
-  max: React.PropTypes.number.isRequired
-});
+import { Color, ScaleFunction, Ticks, TickFormat, propTypes } from '../core';
 
-export const pointDatum = React.PropTypes.shape({
+export interface PointDatum {
+  xValue: number;
+  yValue: number;
+}
+
+export interface XSpanDatum {
+  minXValue: number;
+  maxXValue: number;
+  color?: Color;
+}
+
+export interface SpanDatum {
+  minXValue: number;
+  maxXValue: number;
+  yValue: number;
+}
+
+export interface BucketDatum {
+  minXValue: number;
+  maxXValue: number;
+  minYValue: number;
+  maxYValue: number;
+  firstYValue: number;
+  lastYValue: number;
+}
+
+export interface AxisSpec {
+  scale?: ScaleFunction;
+  ticks?: Ticks;
+  tickFormat?: TickFormat;
+  color?: Color;
+}
+
+
+const pointDatum = React.PropTypes.shape({
   xValue: React.PropTypes.number.isRequired,
   yValue: React.PropTypes.number.isRequired
 });
 
-export const spanDatum = React.PropTypes.shape({
+const spanDatum = React.PropTypes.shape({
   minXValue: React.PropTypes.number.isRequired,
   maxXValue: React.PropTypes.number.isRequired,
   yValue: React.PropTypes.number.isRequired
 });
 
-export const bucketDatum = React.PropTypes.shape({
+const bucketDatum = React.PropTypes.shape({
   minXValue: React.PropTypes.number.isRequired,
   maxXValue: React.PropTypes.number.isRequired,
   minYValue: React.PropTypes.number.isRequired,
@@ -26,37 +57,23 @@ export const bucketDatum = React.PropTypes.shape({
   lastYValue: React.PropTypes.number.isRequired
 });
 
-export const xSpanDatum = React.PropTypes.shape({
+const xSpanDatum = React.PropTypes.shape({
   minXValue: React.PropTypes.number.isRequired,
   maxXValue: React.PropTypes.number.isRequired,
   color: deprecate(React.PropTypes.string, 'xSpanDatum\'s \'color\' prop is deprecated and may not be respected by all layers')
 });
 
-export const ticks = React.PropTypes.oneOfType([
-  React.PropTypes.func,
-  React.PropTypes.number,
-  React.PropTypes.arrayOf(React.PropTypes.number)
-]);
-
-export const tickFormat = React.PropTypes.oneOfType([
-  React.PropTypes.func,
-  React.PropTypes.string
-]);
-
-export const axisSpecPartial = {
+const axisSpecPartial = {
   scale: React.PropTypes.func,
-  ticks: ticks,
-  tickFormat: tickFormat,
+  ticks: propTypes.ticks,
+  tickFormat: propTypes.tickFormat,
   color: React.PropTypes.string
 };
 
-export default {
-  interval,
+export const layerPropTypes = {
   pointDatum,
   spanDatum,
-  bucketDatum,
   xSpanDatum,
-  ticks,
-  tickFormat,
+  bucketDatum,
   axisSpecPartial
 };

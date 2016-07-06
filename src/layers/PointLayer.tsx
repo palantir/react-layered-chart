@@ -3,14 +3,19 @@ import * as PureRender from 'pure-render-decorator';
 import * as d3Scale from 'd3-scale';
 import * as _ from 'lodash';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
-
+import {
+  Interval,
+  ScaleFunction,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  getIndexBoundsForPointData,
+  wrapWithAnimatedYDomain,
+  propTypes
+} from '../core';
+import { PointDatum, layerPropTypes } from './layerDataTypes';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForPointData } from '../renderUtils';
-import { wrapWithAnimatedYDomain } from '../componentUtils';
-import propTypes from '../propTypes';
-import { Interval, PointDatum, ScaleFunction, Color } from '../interfaces';
 
 const TWO_PI = Math.PI * 2;
 
@@ -28,10 +33,10 @@ export interface Props {
 @NonReactRender
 @PixelRatioContext
 class PointLayer extends React.Component<Props, void> {
-  context: Context;
+  context: PixelRatioContextType;
 
   static propTypes = {
-    data: React.PropTypes.arrayOf(propTypes.pointDatum).isRequired,
+    data: React.PropTypes.arrayOf(layerPropTypes.pointDatum).isRequired,
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     yScale: React.PropTypes.func,

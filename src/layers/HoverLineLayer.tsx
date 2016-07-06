@@ -4,12 +4,15 @@ import * as d3Scale from 'd3-scale';
 import * as _ from 'lodash';
 import { deprecate } from 'react-is-deprecated';
 
-import NonReactRender from '../decorators/NonReactRender';
-import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
-
+import {
+  Interval,
+  Color,
+  NonReactRender,
+  PixelRatioContext,
+  PixelRatioContextType,
+  propTypes
+} from '../core';
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import propTypes from '../propTypes';
-import { Interval, Color } from '../interfaces';
 
 export interface Props {
   xDomain: Interval;
@@ -22,7 +25,7 @@ export interface Props {
 @NonReactRender
 @PixelRatioContext
 export default class HoverLineLayer extends React.Component<Props, void> {
-  context: Context;
+  context: PixelRatioContextType;
 
   static propTypes = {
     hover: React.PropTypes.number,
