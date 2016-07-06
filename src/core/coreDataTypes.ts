@@ -12,3 +12,25 @@ export interface Interval {
   min: number;
   max: number;
 }
+
+const interval = React.PropTypes.shape({
+  min: React.PropTypes.number.isRequired,
+  max: React.PropTypes.number.isRequired
+});
+
+const ticks = React.PropTypes.oneOfType([
+  React.PropTypes.func,
+  React.PropTypes.number,
+  React.PropTypes.arrayOf(React.PropTypes.number)
+]);
+
+const tickFormat = React.PropTypes.oneOfType([
+  React.PropTypes.func,
+  React.PropTypes.string
+]);
+
+export const propTypes = {
+  interval,
+  ticks,
+  tickFormat
+};
