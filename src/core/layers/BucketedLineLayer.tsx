@@ -16,6 +16,7 @@ export interface Props {
   yDomain: Interval;
   yScale?: ScaleFunction;
   color?: Color;
+  lineWidth?: number;
   joinType?: JoinType;
 }
 
@@ -29,12 +30,14 @@ class BucketedLineLayer extends React.PureComponent<Props, void> {
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     yScale: React.PropTypes.func,
-    color: React.PropTypes.string
+    color: React.PropTypes.string,
+    lineWidth: React.PropTypes.number
   };
 
   static defaultProps: Partial<Props> = {
     yScale: d3Scale.scaleLinear,
     color: '#444',
+    lineWidth: 1,
     joinType: JoinType.DIRECT
   };
 
@@ -113,6 +116,13 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
   context.fillStyle = props.color!;
   context.fill();
 
+  context.strokeStyle = props.color!;
+  context.lineWidth = props.lineWidth!;
+  if (props.lineWidth! > 1) {
+    // Give the bars a thick outline.
+    context.stroke();
+  }
+
   // Lines
   context.translate(0.5, -0.5);
   context.beginPath();
@@ -130,7 +140,6 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
     context.lineTo(computedValues.minX, height - computedValues.firstY);
     context.moveTo(computedValues.maxX - 1, height - computedValues.lastY);
   }
-  context.strokeStyle = props.color!;
   context.stroke();
 }
 
