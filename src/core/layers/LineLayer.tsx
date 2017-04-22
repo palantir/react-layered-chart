@@ -94,6 +94,7 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
 
   context.strokeStyle = props.color!;
   context.lineWidth = props.lineWidth!;
+  context.lineCap = 'round';
   context.stroke();
 }
 

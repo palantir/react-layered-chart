@@ -118,6 +118,7 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
 
   context.strokeStyle = props.color!;
   context.lineWidth = props.lineWidth!;
+  context.lineCap = 'round';
   if (props.lineWidth! > 1) {
     // Give the bars a thick outline.
     context.stroke();
