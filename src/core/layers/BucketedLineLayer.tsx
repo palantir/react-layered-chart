@@ -101,28 +101,24 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
   });
 
   // Bars
+  const sizeAdjust = props.lineWidth! > 1
+    ? props.lineWidth!
+    : 0;
+  const positionAdjust = sizeAdjust / 2;
   context.beginPath();
   for (let i = 0; i < computedValuesForVisibleData.length; ++i) {
     const computedValues = computedValuesForVisibleData[i];
     if (computedValues.width !== 1 || computedValues.height !== 1) {
       context.rect(
-        computedValues.minX,
-        height - computedValues.maxY,
-        computedValues.width,
-        computedValues.height
+        computedValues.minX - positionAdjust,
+        height - computedValues.maxY - positionAdjust,
+        computedValues.width + sizeAdjust,
+        computedValues.height + sizeAdjust
       );
     }
   }
   context.fillStyle = props.color!;
   context.fill();
-
-  context.strokeStyle = props.color!;
-  context.lineWidth = props.lineWidth!;
-  context.lineCap = 'round';
-  if (props.lineWidth! > 1) {
-    // Give the bars a thick outline.
-    context.stroke();
-  }
 
   // Lines
   context.translate(0.5, -0.5);
@@ -141,6 +137,9 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
     context.lineTo(computedValues.minX, height - computedValues.firstY);
     context.moveTo(computedValues.maxX - 1, height - computedValues.lastY);
   }
+  context.strokeStyle = props.color!;
+  context.lineWidth = props.lineWidth!;
+  context.lineCap = 'round';
   context.stroke();
 }
 
