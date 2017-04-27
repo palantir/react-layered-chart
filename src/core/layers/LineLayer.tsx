@@ -17,6 +17,7 @@ export interface Props {
   yScale?: ScaleFunction;
   color?: Color;
   lineWidth?: number;
+  dashedLine?: boolean;
   joinType?: JoinType;
 }
 
@@ -31,13 +32,15 @@ class LineLayer extends React.PureComponent<Props, void> {
     yDomain: propTypes.interval.isRequired,
     yScale: React.PropTypes.func,
     color: React.PropTypes.string,
-    lineWidth: React.PropTypes.number
+    lineWidth: React.PropTypes.number,
+    dashedLine: React.PropTypes.bool
   };
 
   static defaultProps: Partial<Props> = {
     yScale: d3Scale.scaleLinear,
     color: 'rgba(0, 0, 0, 0.7)',
     lineWidth: 1,
+    dashedLine: false,
     joinType: JoinType.DIRECT
   };
 
@@ -76,6 +79,11 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
     .rangeRound([ 0, height ]);
 
   context.translate(0.5, -0.5);
+  if (props.dashedLine) {
+    context.setLineDash([6, 4]);
+  } else {
+    context.setLineDash([]);
+  }
   context.beginPath();
 
   context.moveTo(xScale(props.data[firstIndex].xValue), height - yScale(props.data[firstIndex].yValue));
