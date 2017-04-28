@@ -5,7 +5,7 @@ import NonReactRender from '../decorators/NonReactRender';
 import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForPointData } from '../renderUtils';
+import { DASH_PERIOD_PX, DASH_SOLID_PX, getIndexBoundsForPointData } from '../renderUtils';
 import { wrapWithAnimatedYDomain } from '../componentUtils';
 import propTypes from '../propTypes';
 import { Interval, PointDatum, ScaleFunction, Color, JoinType } from '../interfaces';
@@ -80,7 +80,7 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
 
   context.translate(0.5, -0.5);
   if (props.dashedLine) {
-    context.setLineDash([6, 4]);
+    context.setLineDash([DASH_SOLID_PX, DASH_PERIOD_PX - DASH_SOLID_PX]);
   } else {
     context.setLineDash([]);
   }

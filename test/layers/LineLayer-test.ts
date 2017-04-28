@@ -2,10 +2,11 @@ import * as _ from 'lodash';
 import * as d3Scale from 'd3-scale';
 import { expect } from 'chai';
 
-import { point, method } from './layerTestUtils';
+import { point, method, property } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
 import { PointDatum, JoinType } from '../../src/core/interfaces';
 import { _renderCanvas } from '../../src/core/layers/LineLayer';
+import { DASH_PERIOD_PX, DASH_SOLID_PX } from '../../src/core/renderUtils';
 
 describe('LineLayer', () => {
   let spy: typeof CanvasContextSpy;
@@ -21,8 +22,8 @@ describe('LineLayer', () => {
     spy = new CanvasContextSpy();
   });
 
-  function renderWithSpy(spy: CanvasRenderingContext2D, data: PointDatum[], joinType?: JoinType) {
-    _renderCanvas(_.defaults({ data, joinType }, DEFAULT_PROPS), 100, 100, spy);
+  function renderWithSpy(spy: CanvasRenderingContext2D, data: PointDatum[], joinType?: JoinType, lineWidth?: number, dashedLine?: boolean) {
+    _renderCanvas(_.defaults({ data, joinType, lineWidth, dashedLine }, DEFAULT_PROPS), 100, 100, spy);
   }
 
   it('should not render anything if there is only one data point', () => {
@@ -125,6 +126,34 @@ describe('LineLayer', () => {
       method('lineTo', [ 50, NaN ]),
       method('lineTo', [ NaN, 50 ]),
       method('lineTo', [ 100, 50 ])
+    ]);
+  });
+
+  it('should render thick lines for line width greater than 1', () => {
+    renderWithSpy(spy, [
+      point(25, 33),
+      point(75, 50)
+    ], JoinType.DIRECT, 2);
+
+    expect(spy.properties.filter(({ property }) => property === 'lineWidth')).to.deep.equal([
+      property('lineWidth', 2)
+    ]);
+    expect(spy.callsOnly('moveTo', 'lineTo')).to.deep.equal([
+      method('moveTo', [ 25, 67 ]),
+      method('lineTo', [ 75, 50 ])
+    ]);
+  });
+
+  it('should render dashed lines when dashed lines are specified', () => {
+    renderWithSpy(spy, [
+      point(25, 33),
+      point(75, 50)
+    ], JoinType.DIRECT, 1, true);
+
+    expect(spy.callsOnly('moveTo', 'lineTo', 'setLineDash')).to.deep.equal([
+      method('setLineDash', [ [DASH_SOLID_PX, DASH_PERIOD_PX - DASH_SOLID_PX] ]),
+      method('moveTo', [ 25, 67 ]),
+      method('lineTo', [ 75, 50 ])
     ]);
   });
 });

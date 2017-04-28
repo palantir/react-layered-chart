@@ -5,13 +5,10 @@ import NonReactRender from '../decorators/NonReactRender';
 import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForSpanData } from '../renderUtils';
+import { DASH_PERIOD_PX, DASH_SOLID_PX, getIndexBoundsForSpanData } from '../renderUtils';
 import { wrapWithAnimatedYDomain } from '../componentUtils';
 import propTypes from '../propTypes';
 import { Interval, Color, ScaleFunction, BucketDatum, JoinType } from '../interfaces';
-
-const DASH_PERIOD_PX = 10;
-const DASH_SOLID_PX = 6;
 
 export interface Props {
   data: BucketDatum[];

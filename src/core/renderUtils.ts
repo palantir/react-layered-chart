@@ -130,3 +130,7 @@ export function computeTicks(scale: any, ticks?: Ticks, tickFormat?: TickFormat)
 
   return { ticks: outputTicks, format };
 }
+
+export const DASH_PERIOD_PX = 10;
+export const DASH_SOLID_PX = 6;
+
