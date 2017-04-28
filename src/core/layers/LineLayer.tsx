@@ -5,7 +5,7 @@ import NonReactRender from '../decorators/NonReactRender';
 import PixelRatioContext, { Context } from '../decorators/PixelRatioContext';
 
 import PollingResizingCanvasLayer from './PollingResizingCanvasLayer';
-import { getIndexBoundsForPointData } from '../renderUtils';
+import { DASH_PERIOD_PX, DASH_SOLID_PX, getIndexBoundsForPointData } from '../renderUtils';
 import { wrapWithAnimatedYDomain } from '../componentUtils';
 import propTypes from '../propTypes';
 import { Interval, PointDatum, ScaleFunction, Color, JoinType } from '../interfaces';
@@ -16,6 +16,8 @@ export interface Props {
   yDomain: Interval;
   yScale?: ScaleFunction;
   color?: Color;
+  lineWidth?: number;
+  dashedLine?: boolean;
   joinType?: JoinType;
 }
 
@@ -29,12 +31,16 @@ class LineLayer extends React.PureComponent<Props, void> {
     xDomain: propTypes.interval.isRequired,
     yDomain: propTypes.interval.isRequired,
     yScale: React.PropTypes.func,
-    color: React.PropTypes.string
+    color: React.PropTypes.string,
+    lineWidth: React.PropTypes.number,
+    dashedLine: React.PropTypes.bool
   };
 
   static defaultProps: Partial<Props> = {
     yScale: d3Scale.scaleLinear,
     color: 'rgba(0, 0, 0, 0.7)',
+    lineWidth: 1,
+    dashedLine: false,
     joinType: JoinType.DIRECT
   };
 
@@ -73,6 +79,11 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
     .rangeRound([ 0, height ]);
 
   context.translate(0.5, -0.5);
+  if (props.dashedLine) {
+    context.setLineDash([DASH_SOLID_PX, DASH_PERIOD_PX - DASH_SOLID_PX]);
+  } else {
+    context.setLineDash([]);
+  }
   context.beginPath();
 
   context.moveTo(xScale(props.data[firstIndex].xValue), height - yScale(props.data[firstIndex].yValue));
@@ -90,6 +101,8 @@ export function _renderCanvas(props: Props, width: number, height: number, conte
   }
 
   context.strokeStyle = props.color!;
+  context.lineWidth = props.lineWidth!;
+  context.lineCap = 'round';
   context.stroke();
 }
 

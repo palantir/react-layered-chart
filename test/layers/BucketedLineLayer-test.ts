@@ -2,10 +2,11 @@ import * as _ from 'lodash';
 import * as d3Scale from 'd3-scale';
 import { expect } from 'chai';
 
-import { bucket, method } from './layerTestUtils';
+import { bucket, method, property } from './layerTestUtils';
 import CanvasContextSpy from '../../src/test-util/CanvasContextSpy';
 import { BucketDatum, JoinType } from '../../src/core/interfaces';
 import { _renderCanvas } from '../../src/core/layers/BucketedLineLayer';
+import { DASH_PERIOD_PX, DASH_SOLID_PX } from '../../src/core/renderUtils';
 
 describe('BucketedLineLayer', () => {
   let spy: typeof CanvasContextSpy;
@@ -21,8 +22,8 @@ describe('BucketedLineLayer', () => {
     spy = new CanvasContextSpy();
   });
 
-  function renderWithSpy(spy: CanvasRenderingContext2D, data: BucketDatum[], joinType?: JoinType) {
-    _renderCanvas(_.defaults({ data, joinType }, DEFAULT_PROPS), 100, 100, spy);
+  function renderWithSpy(spy: CanvasRenderingContext2D, data: BucketDatum[], joinType?: JoinType, lineWidth?: number, dashedLine?: boolean) {
+    _renderCanvas(_.defaults({ data, joinType, lineWidth, dashedLine }, DEFAULT_PROPS), 100, 100, spy);
   }
 
   it('should render a single rect for a single bucket', () => {
@@ -147,6 +148,42 @@ describe('BucketedLineLayer', () => {
       method('moveTo', [ 39, 61 ]),
       method('lineTo', [ 60, 40 ]),
       method('moveTo', [ 99,  1 ])
+    ]);
+  });
+
+  it('should draw wide lines and rectangles when line width greater than 1 is specified', () => {
+    renderWithSpy(spy, [
+      bucket( 0,  40, 0, 100,  0, 67),
+      bucket(60, 100, 0, 100, 45,  0)
+    ], JoinType.DIRECT, 2);
+
+    expect(spy.properties.filter(({ property }) => property === 'lineWidth')).to.deep.equal([
+      property('lineWidth', 2)
+    ]);
+    expect(spy.callsOnly('moveTo', 'lineTo', 'rect')).to.deep.equal([
+      method('rect', [ -1, -1, 42, 102]),
+      method('rect', [ 59, -1, 42, 102]),
+      method('moveTo', [ 39,  33 ]),
+      method('lineTo', [ 60,  55 ]),
+      method('moveTo', [ 99, 100 ])
+    ]);
+  });
+
+  it('should draw dashed lines and striped rectangles when dashed lines are specified', () => {
+    renderWithSpy(spy, [
+      bucket( 0,  40, 0, 20,  0, 67),
+      bucket(60, 100, 0, 20, 45,  0)
+    ], JoinType.DIRECT, 1, true);
+
+    expect(spy.callsOnly('moveTo', 'lineTo', 'rect', 'setLineDash')).to.deep.equal([
+      method('rect', [ 0, 80, 40, DASH_SOLID_PX]),
+      method('rect', [ 0, 90, 40, DASH_PERIOD_PX]),
+      method('rect', [ 60, 80, 40, DASH_SOLID_PX]),
+      method('rect', [ 60, 90, 40, DASH_PERIOD_PX]),
+      method('setLineDash', [ [DASH_SOLID_PX, DASH_PERIOD_PX - DASH_SOLID_PX] ]),
+      method('moveTo', [ 39,  81 ]),
+      method('lineTo', [ 60,  81 ]),
+      method('moveTo', [ 99, 100 ])
     ]);
   });
 

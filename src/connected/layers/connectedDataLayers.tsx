@@ -27,6 +27,8 @@ export const ConnectedBarLayer = wrapDataLayerWithConnect<_CommonConnectedBarLay
 export interface _CommonConnectedBucketedLineLayerProps {
   yScale?: ScaleFunction;
   color?: Color;
+  lineWidth?: number;
+  dashedLine?: boolean;
   joinType?: JoinType;
 }
 export type ConnectedBucketedLineLayerProps = _CommonConnectedBucketedLineLayerProps & SeriesIdProp;
@@ -48,6 +50,8 @@ export const ConnectedPointLayer = wrapDataLayerWithConnect<_CommonConnectedPoin
 export interface _CommonConnectedLineLayerProps {
   yScale?: ScaleFunction;
   color?: Color;
+  lineWidth?: number;
+  dashedLine?: boolean;
   joinType?: JoinType;
 }
 export type ConnectedLineLayerProps = _CommonConnectedLineLayerProps & SeriesIdProp;
